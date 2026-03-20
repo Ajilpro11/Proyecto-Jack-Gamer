@@ -1,0 +1,1136 @@
+<HTML>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Jack Gamer — Metepec</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════
+   VARIABLES & RESET
+══════════════════════════════════════ */
+:root {
+  --bg:        #070810;
+  --bg2:       #0C0D1A;
+  --bg3:       #101120;
+  --pink:      #FF2D87;
+  --purple:    #9B30FF;
+  --blue:      #00CFFF;
+  --pink-dim:  rgba(255,45,135,0.15);
+  --purp-dim:  rgba(155,48,255,0.15);
+  --blue-dim:  rgba(0,207,255,0.15);
+  --white:     #EEF0FF;
+  --gray:      #6B7094;
+  --border:    rgba(255,255,255,0.06);
+  --card:      rgba(255,255,255,0.03);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:'Exo 2',sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  overflow-x:hidden;
+  cursor:default;
+}
+
+/* scrollbar */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--purple);border-radius:2px}
+
+/* ══════════════════════════════════════
+   ANIMATED BACKGROUND
+══════════════════════════════════════ */
+.bg-canvas{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  overflow:hidden;
+}
+.bg-orb{
+  position:absolute;border-radius:50%;filter:blur(120px);
+  animation:orbFloat 12s ease-in-out infinite;
+}
+.bg-orb.o1{
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(155,48,255,0.12),transparent 70%);
+  top:-200px;left:-100px;
+  animation-delay:0s;
+}
+.bg-orb.o2{
+  width:500px;height:500px;
+  background:radial-gradient(circle,rgba(255,45,135,0.1),transparent 70%);
+  top:30%;right:-150px;
+  animation-delay:-4s;
+}
+.bg-orb.o3{
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(0,207,255,0.08),transparent 70%);
+  bottom:10%;left:20%;
+  animation-delay:-8s;
+}
+@keyframes orbFloat{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-40px) scale(1.05)}
+}
+
+/* scanlines */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,transparent 2px,
+    rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px
+  );
+  pointer-events:none;z-index:1;
+}
+
+/* ══════════════════════════════════════
+   NAV
+══════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 2.5rem;
+  background:rgba(7,8,16,0.8);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.logo{
+  font-family:'Orbitron',monospace;
+  font-weight:900;
+  font-size:1.4rem;
+  letter-spacing:0.1em;
+  background:linear-gradient(90deg,var(--pink),var(--purple),var(--blue));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  text-decoration:none;
+}
+.nav-links{
+  display:flex;gap:2rem;list-style:none;
+}
+.nav-links a{
+  color:var(--gray);
+  text-decoration:none;
+  font-size:0.82rem;
+  font-weight:600;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  transition:color 0.2s;
+  position:relative;
+}
+.nav-links a::after{
+  content:'';
+  position:absolute;bottom:-4px;left:0;right:0;
+  height:1px;background:var(--pink);
+  transform:scaleX(0);transform-origin:right;
+  transition:transform 0.3s;
+}
+.nav-links a:hover{color:var(--white)}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-btn{
+  background:linear-gradient(135deg,var(--pink),var(--purple));
+  color:#fff;
+  padding:0.55rem 1.4rem;
+  border-radius:4px;
+  font-family:'Orbitron',monospace;
+  font-size:0.72rem;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  text-decoration:none;
+  transition:opacity 0.2s,transform 0.2s,box-shadow 0.2s;
+  box-shadow:0 0 20px rgba(255,45,135,0.3);
+}
+.nav-btn:hover{
+  opacity:0.9;transform:translateY(-1px);
+  box-shadow:0 0 32px rgba(255,45,135,0.5);
+}
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero{
+  position:relative;z-index:2;
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;
+  padding:8rem 2rem 5rem;
+  overflow:hidden;
+}
+.hero-grid-lines{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(155,48,255,0.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(155,48,255,0.06) 1px,transparent 1px);
+  background-size:50px 50px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 50%,black 30%,transparent 100%);
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  border:1px solid rgba(255,45,135,0.4);
+  background:rgba(255,45,135,0.08);
+  color:var(--pink);
+  font-size:0.72rem;
+  font-weight:700;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  padding:0.4rem 1.1rem;
+  border-radius:100px;
+  margin-bottom:1.75rem;
+  animation:fadeUp 0.7s ease both;
+}
+.hero-badge .dot{
+  width:6px;height:6px;
+  background:var(--pink);
+  border-radius:50%;
+  animation:blink 1.5s ease-in-out infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+
+.hero h1{
+  font-family:'Orbitron',monospace;
+  font-size:clamp(2.2rem,6vw,5.5rem);
+  font-weight:900;
+  line-height:1.05;
+  letter-spacing:-0.01em;
+  margin-bottom:1.5rem;
+  animation:fadeUp 0.7s 0.1s ease both;
+}
+.hero h1 .line-pink{
+  display:block;
+  background:linear-gradient(90deg,var(--pink),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero h1 .line-blue{
+  display:block;
+  background:linear-gradient(90deg,var(--blue),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-sub{
+  font-size:clamp(1rem,2vw,1.2rem);
+  color:var(--gray);
+  max-width:560px;
+  margin:0 auto 2.5rem;
+  animation:fadeUp 0.7s 0.2s ease both;
+}
+.hero-sub strong{color:var(--white)}
+.hero-actions{
+  display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+  animation:fadeUp 0.7s 0.3s ease both;
+}
+.btn-neon-pink{
+  background:linear-gradient(135deg,var(--pink),var(--purple));
+  color:#fff;
+  padding:1rem 2.25rem;
+  border-radius:6px;
+  font-family:'Orbitron',monospace;
+  font-size:0.82rem;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  text-decoration:none;
+  transition:transform 0.2s,box-shadow 0.2s;
+  box-shadow:0 0 30px rgba(255,45,135,0.4);
+}
+.btn-neon-pink:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 50px rgba(255,45,135,0.6);
+}
+.btn-neon-blue{
+  border:1px solid rgba(0,207,255,0.4);
+  background:rgba(0,207,255,0.06);
+  color:var(--blue);
+  padding:1rem 2.25rem;
+  border-radius:6px;
+  font-family:'Orbitron',monospace;
+  font-size:0.82rem;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  text-decoration:none;
+  transition:transform 0.2s,box-shadow 0.2s,background 0.2s;
+}
+.btn-neon-blue:hover{
+  transform:translateY(-3px);
+  background:rgba(0,207,255,0.12);
+  box-shadow:0 0 30px rgba(0,207,255,0.25);
+}
+.hero-pills{
+  display:flex;gap:1.25rem;justify-content:center;flex-wrap:wrap;
+  margin-top:3rem;
+  animation:fadeUp 0.7s 0.4s ease both;
+}
+.pill{
+  display:flex;align-items:center;gap:0.5rem;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:100px;
+  padding:0.5rem 1.1rem;
+  font-size:0.8rem;
+  color:var(--gray);
+}
+.pill .pi{font-size:1rem}
+
+/* ══════════════════════════════════════
+   SECTION BASE
+══════════════════════════════════════ */
+.section-wrap{
+  position:relative;z-index:2;
+  max-width:1200px;margin:0 auto;
+  padding:5rem 2rem;
+}
+.s-label{
+  font-family:'Orbitron',monospace;
+  font-size:0.65rem;
+  font-weight:700;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--purple);
+  margin-bottom:0.75rem;
+}
+.s-title{
+  font-family:'Orbitron',monospace;
+  font-size:clamp(1.5rem,3vw,2.4rem);
+  font-weight:900;
+  line-height:1.1;
+  letter-spacing:-0.01em;
+  margin-bottom:1rem;
+}
+.s-desc{
+  color:var(--gray);
+  font-size:0.975rem;
+  max-width:540px;
+  margin-bottom:3rem;
+}
+.glowing-divider{
+  width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--purple),var(--pink),transparent);
+  opacity:0.3;
+  margin:0;
+}
+
+/* ══════════════════════════════════════
+   CATÁLOGO
+══════════════════════════════════════ */
+.cat-filters{
+  display:flex;gap:0.75rem;flex-wrap:wrap;
+  margin-bottom:2.5rem;
+}
+.filter-btn{
+  background:var(--card);
+  border:1px solid var(--border);
+  color:var(--gray);
+  padding:0.45rem 1.1rem;
+  border-radius:100px;
+  font-size:0.8rem;
+  font-weight:600;
+  letter-spacing:0.06em;
+  cursor:pointer;
+  transition:all 0.2s;
+  font-family:'Exo 2',sans-serif;
+}
+.filter-btn:hover,.filter-btn.active{
+  border-color:var(--pink);
+  color:var(--pink);
+  background:rgba(255,45,135,0.08);
+}
+.cat-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:1.25rem;
+}
+.product-card{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  transition:transform 0.25s,border-color 0.25s,box-shadow 0.25s;
+  cursor:pointer;
+}
+.product-card:hover{
+  transform:translateY(-5px);
+  border-color:rgba(155,48,255,0.5);
+  box-shadow:0 8px 40px rgba(155,48,255,0.15);
+}
+.product-img{
+  width:100%;
+  aspect-ratio:1/1;
+  background:linear-gradient(135deg,var(--bg2),var(--bg3));
+  display:flex;align-items:center;justify-content:center;
+  font-size:3.5rem;
+  position:relative;
+  overflow:hidden;
+}
+.product-img::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 50%,rgba(7,8,16,0.6) 100%);
+}
+.product-badge-tag{
+  position:absolute;top:10px;left:10px;z-index:1;
+  background:linear-gradient(135deg,var(--pink),var(--purple));
+  color:#fff;
+  font-size:0.65rem;
+  font-weight:700;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  padding:0.25rem 0.6rem;
+  border-radius:4px;
+}
+.product-info{
+  padding:1rem 1.1rem 1.25rem;
+}
+.product-cat{
+  font-size:0.7rem;
+  font-weight:600;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--purple);
+  margin-bottom:0.35rem;
+}
+.product-name{
+  font-family:'Orbitron',monospace;
+  font-size:0.88rem;
+  font-weight:700;
+  color:var(--white);
+  margin-bottom:0.25rem;
+  line-height:1.3;
+}
+.product-brand{
+  font-size:0.78rem;
+  color:var(--gray);
+  margin-bottom:0.75rem;
+}
+.product-footer{
+  display:flex;align-items:center;justify-content:space-between;
+}
+.product-price{
+  font-family:'Orbitron',monospace;
+  font-size:1rem;
+  font-weight:700;
+  color:var(--blue);
+}
+.product-price small{
+  font-size:0.65rem;
+  color:var(--gray);
+  font-family:'Exo 2',sans-serif;
+  font-weight:400;
+  display:block;
+  letter-spacing:0.04em;
+}
+.btn-add{
+  background:rgba(155,48,255,0.15);
+  border:1px solid rgba(155,48,255,0.35);
+  color:var(--purple);
+  width:36px;height:36px;
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;
+  cursor:pointer;
+  transition:all 0.2s;
+  line-height:1;
+}
+.btn-add:hover{
+  background:rgba(155,48,255,0.3);
+  border-color:var(--purple);
+  transform:scale(1.1);
+}
+
+/* ══════════════════════════════════════
+   PEDIDO DIRECTO
+══════════════════════════════════════ */
+.pedido-section{
+  background:linear-gradient(135deg,rgba(155,48,255,0.06),rgba(255,45,135,0.06));
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.pedido-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:4rem;
+  align-items:center;
+}
+.pedido-steps{
+  display:flex;flex-direction:column;gap:1.25rem;
+}
+.step-item{
+  display:flex;gap:1.25rem;align-items:flex-start;
+}
+.step-num{
+  font-family:'Orbitron',monospace;
+  font-size:0.7rem;
+  font-weight:900;
+  width:36px;height:36px;
+  border-radius:50%;
+  border:1px solid var(--purple);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--purple);
+  flex-shrink:0;
+  background:rgba(155,48,255,0.1);
+}
+.step-title{
+  font-family:'Orbitron',monospace;
+  font-size:0.85rem;
+  font-weight:700;
+  color:var(--white);
+  margin-bottom:0.3rem;
+  letter-spacing:0.04em;
+}
+.step-desc{
+  font-size:0.85rem;
+  color:var(--gray);
+  line-height:1.5;
+}
+.pedido-form{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:2rem;
+  position:relative;
+  overflow:hidden;
+}
+.pedido-form::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,var(--pink),var(--purple),var(--blue));
+}
+.form-title{
+  font-family:'Orbitron',monospace;
+  font-size:1rem;
+  font-weight:700;
+  margin-bottom:1.5rem;
+  color:var(--white);
+}
+.form-group{
+  margin-bottom:1.1rem;
+}
+.form-group label{
+  display:block;
+  font-size:0.72rem;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--gray);
+  margin-bottom:0.4rem;
+}
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);
+  border-radius:8px;
+  color:var(--white);
+  font-family:'Exo 2',sans-serif;
+  font-size:0.9rem;
+  padding:0.75rem 1rem;
+  outline:none;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+  border-color:rgba(155,48,255,0.6);
+  box-shadow:0 0 0 3px rgba(155,48,255,0.08);
+}
+.form-group select option{background:var(--bg2)}
+.form-group textarea{resize:vertical;min-height:80px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.btn-submit{
+  width:100%;
+  background:linear-gradient(135deg,var(--pink),var(--purple));
+  color:#fff;
+  border:none;
+  padding:1rem;
+  border-radius:8px;
+  font-family:'Orbitron',monospace;
+  font-size:0.85rem;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  cursor:pointer;
+  margin-top:0.5rem;
+  transition:opacity 0.2s,transform 0.2s,box-shadow 0.2s;
+  box-shadow:0 0 24px rgba(255,45,135,0.3);
+}
+.btn-submit:hover{
+  opacity:0.9;transform:translateY(-2px);
+  box-shadow:0 0 40px rgba(255,45,135,0.5);
+}
+
+/* ══════════════════════════════════════
+   CONTACTO / CANALES
+══════════════════════════════════════ */
+.canales-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1.25rem;
+}
+.canal-card{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:1.75rem;
+  text-decoration:none;
+  color:var(--white);
+  display:flex;flex-direction:column;gap:1rem;
+  position:relative;
+  overflow:hidden;
+  transition:transform 0.25s,border-color 0.25s,box-shadow 0.25s;
+}
+.canal-card:hover{
+  transform:translateY(-4px);
+}
+.canal-card.wa{border-color:rgba(37,211,102,0.25)}
+.canal-card.wa:hover{
+  border-color:rgba(37,211,102,0.5);
+  box-shadow:0 8px 40px rgba(37,211,102,0.12);
+}
+.canal-card.ig{border-color:rgba(255,45,135,0.25)}
+.canal-card.ig:hover{
+  border-color:rgba(255,45,135,0.5);
+  box-shadow:0 8px 40px rgba(255,45,135,0.12);
+}
+.canal-card.tt{border-color:rgba(0,207,255,0.25)}
+.canal-card.tt:hover{
+  border-color:rgba(0,207,255,0.5);
+  box-shadow:0 8px 40px rgba(0,207,255,0.12);
+}
+.canal-card.fb{border-color:rgba(155,48,255,0.25)}
+.canal-card.fb:hover{
+  border-color:rgba(155,48,255,0.5);
+  box-shadow:0 8px 40px rgba(155,48,255,0.12);
+}
+.canal-icon{
+  font-size:2.25rem;
+  line-height:1;
+}
+.canal-name{
+  font-family:'Orbitron',monospace;
+  font-size:1rem;
+  font-weight:700;
+  margin-bottom:0.25rem;
+}
+.canal-handle{
+  font-size:0.85rem;
+  color:var(--gray);
+}
+.canal-cta{
+  font-size:0.75rem;
+  font-weight:700;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  margin-top:auto;
+  display:flex;align-items:center;gap:0.4rem;
+}
+.canal-card.wa .canal-cta{color:#25D366}
+.canal-card.ig .canal-cta{color:var(--pink)}
+.canal-card.tt .canal-cta{color:var(--blue)}
+.canal-card.fb .canal-cta{color:var(--purple)}
+
+/* ══════════════════════════════════════
+   ZONA DE ENTREGA
+══════════════════════════════════════ */
+.zona-section{
+  text-align:center;
+  padding-bottom:4rem;
+}
+.zona-map{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:3rem 2rem;
+  max-width:700px;
+  margin:0 auto;
+  position:relative;
+  overflow:hidden;
+}
+.zona-map::before{
+  content:'';
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 60% at 50% 50%,rgba(155,48,255,0.06),transparent 70%);
+}
+.zona-icon{
+  font-size:3.5rem;
+  margin-bottom:1rem;
+  display:block;
+}
+.zona-title{
+  font-family:'Orbitron',monospace;
+  font-size:1.4rem;
+  font-weight:700;
+  margin-bottom:0.75rem;
+}
+.zona-desc{
+  color:var(--gray);
+  font-size:0.975rem;
+  margin-bottom:2rem;
+  max-width:450px;
+  margin-left:auto;margin-right:auto;
+}
+.zona-chips{
+  display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;
+}
+.zona-chip{
+  background:rgba(155,48,255,0.1);
+  border:1px solid rgba(155,48,255,0.25);
+  color:var(--purple);
+  font-size:0.82rem;
+  font-weight:600;
+  padding:0.4rem 1rem;
+  border-radius:100px;
+  letter-spacing:0.04em;
+}
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+footer{
+  position:relative;z-index:2;
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  padding:2.5rem 2.5rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:1rem;
+}
+.footer-logo{
+  font-family:'Orbitron',monospace;
+  font-weight:900;
+  font-size:1.2rem;
+  background:linear-gradient(90deg,var(--pink),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.footer-copy{
+  font-size:0.78rem;
+  color:var(--gray);
+}
+.footer-links{
+  display:flex;gap:1.5rem;list-style:none;
+}
+.footer-links a{
+  font-size:0.78rem;
+  color:var(--gray);
+  text-decoration:none;
+  transition:color 0.2s;
+}
+.footer-links a:hover{color:var(--pink)}
+
+/* ══════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════ */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(22px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.reveal{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity 0.65s ease,transform 0.65s ease;
+}
+.reveal.on{opacity:1;transform:translateY(0)}
+.reveal.d1{transition-delay:0.05s}
+.reveal.d2{transition-delay:0.12s}
+.reveal.d3{transition-delay:0.19s}
+.reveal.d4{transition-delay:0.26s}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media(max-width:768px){
+  nav{padding:1rem 1.25rem}
+  .nav-links{display:none}
+  .hero{padding:6rem 1.25rem 3rem}
+  .section-wrap{padding:3.5rem 1.25rem}
+  .pedido-grid{grid-template-columns:1fr;gap:2.5rem}
+  .form-row{grid-template-columns:1fr}
+  footer{flex-direction:column;text-align:center}
+  .footer-links{justify-content:center}
+}
+
+/* ══════════════════════════════════════
+   TOAST NOTIFICATION
+══════════════════════════════════════ */
+.toast{
+  position:fixed;bottom:2rem;right:2rem;z-index:999;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  color:#fff;
+  padding:0.9rem 1.5rem;
+  border-radius:10px;
+  font-size:0.875rem;
+  font-weight:600;
+  box-shadow:0 8px 32px rgba(155,48,255,0.4);
+  transform:translateY(100px);opacity:0;
+  transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),opacity 0.3s;
+  pointer-events:none;
+}
+.toast.show{transform:translateY(0);opacity:1}
+</style>
+</head>
+<body>
+
+<!-- ══ FONDO ANIMADO ══ -->
+<div class="bg-canvas">
+  <div class="bg-orb o1"></div>
+  <div class="bg-orb o2"></div>
+  <div class="bg-orb o3"></div>
+</div>
+
+<!-- ══════════════════ NAV ══════════════════ -->
+<nav>
+  <a href="#" class="logo">JACK<span style="color:inherit">GAMER</span></a>
+  <ul class="nav-links">
+    <li><a href="#catalogo">Catálogo</a></li>
+    <li><a href="#pedido">Pedido</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+    <li><a href="#entrega">Entrega</a></li>
+  </ul>
+  <a href="#pedido" class="nav-btn">Pedir ahora</a>
+</nav>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<section class="hero">
+  <div class="hero-grid-lines"></div>
+  <div class="hero-badge"><span class="dot"></span>Metepec · Entrega hoy</div>
+  <h1>
+    <span class="line-pink">Tu tienda gamer</span>
+    <span style="color:var(--white)">sin sobreprecios.</span>
+    <span class="line-blue">Sin esperas.</span>
+  </h1>
+  <p class="hero-sub">
+    Accesorios, controles, audífonos y más —
+    <strong>originales con garantía</strong>, a precios justos
+    y con entrega el mismo día en Metepec y zona.
+  </p>
+  <div class="hero-actions">
+    <a href="#catalogo" class="btn-neon-pink">Ver catálogo</a>
+    <a href="#pedido" class="btn-neon-blue">Hacer un pedido</a>
+  </div>
+  <div class="hero-pills">
+    <div class="pill"><span class="pi">⚡</span> Entrega en menos de 24h</div>
+    <div class="pill"><span class="pi">🛡️</span> Originales garantizados</div>
+    <div class="pill"><span class="pi">💬</span> Atención por WhatsApp</div>
+    <div class="pill"><span class="pi">📍</span> Metepec y zona</div>
+  </div>
+</section>
+
+<div class="glowing-divider"></div>
+
+<!-- ══════════════════ CATÁLOGO ══════════════════ -->
+<div class="section-wrap" id="catalogo">
+  <div class="reveal">
+    <div class="s-label">Catálogo</div>
+    <h2 class="s-title">Encuentra lo que necesitas.</h2>
+    <p class="s-desc">Productos originales de las marcas que conoces. Precios sin el sobrecosto de las tiendas de plaza.</p>
+  </div>
+  <div class="cat-filters reveal d1">
+    <button class="filter-btn active" onclick="filterCat('todos',this)">Todos</button>
+    <button class="filter-btn" onclick="filterCat('controles',this)">Controles</button>
+    <button class="filter-btn" onclick="filterCat('audifonos',this)">Audífonos</button>
+    <button class="filter-btn" onclick="filterCat('teclados',this)">Teclados & Mouse</button>
+    <button class="filter-btn" onclick="filterCat('consolas',this)">Consolas</button>
+    <button class="filter-btn" onclick="filterCat('juegos',this)">Juegos</button>
+  </div>
+  <div class="cat-grid" id="catGrid">
+    <!-- Products injected by JS -->
+  </div>
+</div>
+
+<div class="glowing-divider"></div>
+
+<!-- ══════════════════ PEDIDO DIRECTO ══════════════════ -->
+<div class="pedido-section" id="pedido">
+  <div class="section-wrap">
+    <div class="pedido-grid">
+      <div>
+        <div class="reveal">
+          <div class="s-label">Pedido directo</div>
+          <h2 class="s-title">Lo quieres hoy. Nosotros te lo llevamos hoy.</h2>
+          <p class="s-desc" style="margin-bottom:2.5rem">
+            Sin apps raras ni esperas de días. Llena el formulario y nos ponemos en contacto contigo de inmediato para confirmar tu pedido.
+          </p>
+        </div>
+        <div class="pedido-steps">
+          <div class="step-item reveal d1">
+            <div class="step-num">01</div>
+            <div>
+              <div class="step-title">Llena el formulario</div>
+              <p class="step-desc">Dinos qué producto quieres y cómo encontrarte. Solo toma 2 minutos.</p>
+            </div>
+          </div>
+          <div class="step-item reveal d2">
+            <div class="step-num">02</div>
+            <div>
+              <div class="step-title">Confirmamos por WhatsApp</div>
+              <p class="step-desc">Te escribimos para confirmar disponibilidad, precio final y hora de entrega.</p>
+            </div>
+          </div>
+          <div class="step-item reveal d3">
+            <div class="step-num">03</div>
+            <div>
+              <div class="step-title">Recibes tu producto</div>
+              <p class="step-desc">Entregamos en tu domicilio con garantía incluida. El mismo día si es antes de las 5pm.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal d2">
+        <div class="pedido-form">
+          <div class="form-title">// Nuevo pedido</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" placeholder="Tu nombre" id="f-nombre"/>
+            </div>
+            <div class="form-group">
+              <label>WhatsApp</label>
+              <input type="tel" placeholder="722 000 0000" id="f-tel"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>¿Qué producto buscas?</label>
+            <select id="f-cat">
+              <option value="">Selecciona una categoría</option>
+              <option>Control (PS5 / Xbox / Switch)</option>
+              <option>Audífonos gaming</option>
+              <option>Teclado mecánico</option>
+              <option>Mouse gaming</option>
+              <option>Consola nueva / usada</option>
+              <option>Juego físico</option>
+              <option>Otro accesorio</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Detalla tu pedido</label>
+            <textarea placeholder="Ej: Control PS5 DualSense blanco, necesito hoy antes de las 6pm..." id="f-detalle"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Colonia / Zona de entrega</label>
+            <input type="text" placeholder="Ej: Col. San Jerónimo Chicahualco" id="f-zona"/>
+          </div>
+          <button class="btn-submit" onclick="enviarPedido()">
+            Enviar pedido ⚡
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="glowing-divider"></div>
+
+<!-- ══════════════════ CONTACTO & REDES ══════════════════ -->
+<div class="section-wrap" id="contacto">
+  <div class="reveal">
+    <div class="s-label">Contáctanos</div>
+    <h2 class="s-title">Encuéntranos donde ya estás.</h2>
+    <p class="s-desc">Respondemos rápido porque sabemos que no puedes esperar.</p>
+  </div>
+  <div class="canales-grid">
+    <a href="https://wa.me/527220000000" target="_blank" class="canal-card wa reveal d1">
+      <div class="canal-icon">💬</div>
+      <div>
+        <div class="canal-name">WhatsApp</div>
+        <!-- 🔧 CAMBIA ESTE NÚMERO -->
+        <div class="canal-handle">+52 (722) 000-0000</div>
+      </div>
+      <div class="canal-cta">Escribir ahora →</div>
+    </a>
+    <a href="https://instagram.com/jackgamer.metepec" target="_blank" class="canal-card ig reveal d2">
+      <div class="canal-icon">📸</div>
+      <div>
+        <div class="canal-name">Instagram</div>
+        <!-- 🔧 CAMBIA ESTE USUARIO -->
+        <div class="canal-handle">@jackgamer.metepec</div>
+      </div>
+      <div class="canal-cta">Seguir →</div>
+    </a>
+    <a href="https://tiktok.com/@jackgamer.metepec" target="_blank" class="canal-card tt reveal d3">
+      <div class="canal-icon">🎵</div>
+      <div>
+        <div class="canal-name">TikTok</div>
+        <!-- 🔧 CAMBIA ESTE USUARIO -->
+        <div class="canal-handle">@jackgamer.metepec</div>
+      </div>
+      <div class="canal-cta">Ver videos →</div>
+    </a>
+    <a href="https://facebook.com/marketplace" target="_blank" class="canal-card fb reveal d4">
+      <div class="canal-icon">📘</div>
+      <div>
+        <div class="canal-name">Facebook Marketplace</div>
+        <!-- 🔧 CAMBIA ESTE ENLACE -->
+        <div class="canal-handle">Jack Gamer Metepec</div>
+      </div>
+      <div class="canal-cta">Ver productos →</div>
+    </a>
+  </div>
+</div>
+
+<div class="glowing-divider"></div>
+
+<!-- ══════════════════ ZONA DE ENTREGA ══════════════════ -->
+<div class="section-wrap zona-section" id="entrega">
+  <div class="reveal">
+    <div class="s-label" style="text-align:center">Zona de cobertura</div>
+    <h2 class="s-title" style="text-align:center">¿Llegamos a tu zona?</h2>
+  </div>
+  <div class="zona-map reveal">
+    <span class="zona-icon">📍</span>
+    <div class="zona-title">Metepec y Toluca — radio 10-15 km</div>
+    <p class="zona-desc">
+      Hacemos entregas a domicilio dentro de nuestra zona de cobertura.
+      Si tienes duda si llegamos a tu colonia, escríbenos y te decimos al instante.
+    </p>
+    <div class="zona-chips">
+      <span class="zona-chip">Metepec Centro</span>
+      <span class="zona-chip">Toluca</span>
+      <span class="zona-chip">San Mateo Atenco</span>
+      <span class="zona-chip">Lerma</span>
+      <span class="zona-chip">Zinacantepec</span>
+      <span class="zona-chip">Ocoyoacac</span>
+      <span class="zona-chip">¿Tu zona? Pregúntanos</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+  <div class="footer-logo">JACK GAMER</div>
+  <ul class="footer-links">
+    <li><a href="#catalogo">Catálogo</a></li>
+    <li><a href="#pedido">Pedido</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+    <li><a href="#entrega">Entrega</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Jack Gamer · Metepec, Edo. Méx.</div>
+</footer>
+
+<!-- ══ TOAST ══ -->
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════ JS ══════════════════ -->
+<script>
+/* ── PRODUCTOS ── */
+const productos = [
+  {id:1, cat:'controles', emoji:'🎮', badge:'Top Venta', nombre:'Control DualSense', marca:'Sony PlayStation 5', precio:'$XXX', garantia:'Garantía oficial'},
+  {id:2, cat:'controles', emoji:'🕹️', badge:'Nuevo', nombre:'Control Xbox Series', marca:'Microsoft', precio:'$XXX', garantia:'Garantía oficial'},
+  {id:3, cat:'controles', emoji:'🎮', badge:null, nombre:'Control Switch Pro', marca:'Nintendo', precio:'$XXX', garantia:'Garantía oficial'},
+  {id:4, cat:'audifonos', emoji:'🎧', badge:'Top Venta', nombre:'Cloud II Wireless', marca:'HyperX', precio:'$XXX', garantia:'2 años garantía'},
+  {id:5, cat:'audifonos', emoji:'🎧', badge:null, nombre:'Blackshark V2', marca:'Razer', precio:'$XXX', garantia:'1 año garantía'},
+  {id:6, cat:'teclados', emoji:'⌨️', badge:'Nuevo', nombre:'G Pro X TKL', marca:'Logitech', precio:'$XXX', garantia:'2 años garantía'},
+  {id:7, cat:'teclados', emoji:'🖱️', badge:null, nombre:'DeathAdder V3', marca:'Razer', precio:'$XXX', garantia:'2 años garantía'},
+  {id:8, cat:'consolas', emoji:'🕹️', badge:'Disponible', nombre:'PlayStation 5 Slim', marca:'Sony', precio:'$XXX', garantia:'Garantía oficial'},
+  {id:9, cat:'consolas', emoji:'🕹️', badge:null, nombre:'Nintendo Switch OLED', marca:'Nintendo', precio:'$XXX', garantia:'Garantía oficial'},
+  {id:10, cat:'juegos', emoji:'📀', badge:'Preventa', nombre:'Título próximo 2026', marca:'Varios', precio:'$XXX', garantia:'Producto sellado'},
+  {id:11, cat:'audifonos', emoji:'🎧', badge:null, nombre:'Arctis Nova 3', marca:'SteelSeries', precio:'$XXX', garantia:'1 año garantía'},
+  {id:12, cat:'teclados', emoji:'⌨️', badge:'Hot', nombre:'Huntsman Mini', marca:'Razer', precio:'$XXX', garantia:'2 años garantía'},
+];
+
+let categoriaActiva = 'todos';
+
+function renderProductos(filtro){
+  const grid = document.getElementById('catGrid');
+  const lista = filtro === 'todos' ? productos : productos.filter(p => p.cat === filtro);
+  grid.innerHTML = lista.map((p,i) => `
+    <div class="product-card reveal d${(i%4)+1}" data-cat="${p.cat}" style="transition-delay:${i*0.05}s">
+      <div class="product-img">
+        <span style="position:relative;z-index:1">${p.emoji}</span>
+        ${p.badge ? `<span class="product-badge-tag">${p.badge}</span>` : ''}
+      </div>
+      <div class="product-info">
+        <div class="product-cat">${p.cat}</div>
+        <div class="product-name">${p.nombre}</div>
+        <div class="product-brand">${p.marca}</div>
+        <div class="product-footer">
+          <div class="product-price">
+            ${p.precio}
+            <small>${p.garantia}</small>
+          </div>
+          <button class="btn-add" onclick="pedirProducto('${p.nombre}')" title="Pedir este producto">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  // Re-observe new reveals
+  grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+function filterCat(cat, btn){
+  categoriaActiva = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProductos(cat);
+}
+
+function pedirProducto(nombre){
+  document.getElementById('f-cat').value = '';
+  document.getElementById('f-detalle').value = `Quiero: ${nombre}`;
+  document.getElementById('pedido').scrollIntoView({behavior:'smooth'});
+  showToast(`✓ ${nombre} agregado al pedido`);
+}
+
+/* ── FORMULARIO → WHATSAPP ── */
+function enviarPedido(){
+  const nombre  = document.getElementById('f-nombre').value.trim();
+  const tel     = document.getElementById('f-tel').value.trim();
+  const cat     = document.getElementById('f-cat').value;
+  const detalle = document.getElementById('f-detalle').value.trim();
+  const zona    = document.getElementById('f-zona').value.trim();
+
+  if(!nombre || !tel || !detalle){
+    showToast('⚠️ Llena los campos requeridos');
+    return;
+  }
+
+  // 🔧 CAMBIA ESTE NÚMERO POR EL REAL (sin espacios ni guiones)
+  const numero = '527220000000';
+
+  const msg = encodeURIComponent(
+    `¡Hola Jack Gamer! 👾\n\n` +
+    `*Nombre:* ${nombre}\n` +
+    `*Teléfono:* ${tel}\n` +
+    `*Categoría:* ${cat || 'No especificada'}\n` +
+    `*Pedido:* ${detalle}\n` +
+    `*Zona:* ${zona || 'No especificada'}\n\n` +
+    `Quiero confirmar disponibilidad y precio 🎮`
+  );
+
+  window.open(`https://wa.me/${numero}?text=${msg}`, '_blank');
+  showToast('✓ Redirigiendo a WhatsApp...');
+}
+
+/* ── SCROLL REVEAL ── */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('on');
+      observer.unobserve(entry.target);
+    }
+  });
+}, {threshold: 0.08});
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ── TOAST ── */
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+/* ── INIT ── */
+renderProductos('todos');
+</script>
+</body>
+</html>
