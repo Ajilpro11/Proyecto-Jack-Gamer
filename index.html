@@ -1,39 +1,78 @@
-<HTML>
-<html lang="es">
+<html>
 <head>
-<meta charset="UTF-8">
 <title>Jack Gamer</title>
 
 <style>
+
+/* ===== ROOT DE COLORES ===== */
+:root {
+    --negro: #020024;
+    --azul-oscuro: #090979;
+    --azul-claro: #00d4ff;
+    --header: #070810;
+    --blanco: #ffffff;
+    --gris: #cccccc;
+}
+
 /* ===== ESTILO GENERAL ===== */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    background-color: #111;
-    color: white;
+    background: linear-gradient(90deg, var(--negro) 0%, var(--azul-oscuro) 50%, var(--azul-claro) 100%);
+    color: var(--blanco);
     text-align: center;
 }
 
 /* ===== HEADER ===== */
 header {
-    background-color: #000;
-    padding: 20px;
+    background-color: var(--header);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ===== CONTENEDOR IZQUIERDA ===== */
+.izquierda {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 /* ===== LOGO ===== */
 .logo img {
-    width: 100px;
+    width: 60px;
+    border-radius: 8px;
 }
 
 /* ===== TITULO ===== */
 h1 {
-    margin: 10px 0 5px;
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--azul-claro);
+}
+
+/* ===== BOTON ===== */
+.btn {
+    background-color: var(--azul-claro);
+    color: var(--negro);
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    opacity: 0.8;
 }
 
 /* ===== ESLOGAN ===== */
 .eslogan {
-    color: #00bfff;
+    color: var(--azul-claro);
     font-style: italic;
+    margin-top: 5px;
+    font-size: 0.9rem;
 }
 
 /* ===== SECCION ===== */
@@ -49,11 +88,12 @@ p {
 
 /* ===== FOOTER ===== */
 footer {
-    background-color: #000;
+    background-color: var(--header);
     padding: 20px;
     margin-top: 20px;
     font-size: 14px;
 }
+
 </style>
 
 </head>
@@ -62,22 +102,21 @@ footer {
 <!-- ===== ENCABEZADO ===== -->
 <header>
 
-    <!-- LOGO (URL o archivo local) -->
-    <div class="logo">
-        <!-- OPCIÓN LOCAL -->
-        <img src="Logo empresa.jpg" alt="Logo Jack Gamer">
-
-        <!-- OPCIÓN INTERNET -->
-        <!-- <img src="https://via.placeholder.com/100" alt="Logo"> -->
+    <!-- IZQUIERDA: LOGO + NOMBRE -->
+    <div class="izquierda">
+        <div class="logo">
+            <img src="Logo empresa.jpg" alt="Logo Jack Gamer">
+        </div>
+        <h1>Jack Gamer</h1>
     </div>
 
-    <!-- NOMBRE -->
-    <h1>Jack Gamer</h1>
-
-    <!-- ESLOGAN -->
-    <div class="eslogan">"No es solo un juego, es una batalla"</div>
+    <!-- DERECHA: BOTON -->
+    <a href="Formulario.html" class="btn">Registrar</a>
 
 </header>
+
+<!-- ESLOGAN -->
+<div class="eslogan">"No es solo un juego, es una batalla"</div>
 
 <!-- ===== QUIENES SOMOS ===== -->
 <section>
@@ -97,9 +136,7 @@ footer {
 <footer>
 
     <p><strong>Ubicación:</strong> Metepec, Estado de México</p>
-
     <p><strong>Teléfono:</strong> 722-000-0000</p>
-
     <p><strong>Redes:</strong> Facebook | Instagram | WhatsApp</p>
 
 </footer>

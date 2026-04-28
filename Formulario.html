@@ -1,0 +1,169 @@
+<html>
+<head>
+<title>Formulario - Jack Gamer</title>
+
+<style>
+
+/* ===== ROOT DE COLORES ===== */
+:root {
+    --negro: #020024;
+    --azul-oscuro: #090979;
+    --azul-claro: #00d4ff;
+    --header: #070810;
+    --blanco: #ffffff;
+    --gris: #cccccc;
+    --borde: rgba(255,255,255,0.1);
+}
+
+/* ===== ESTILO GENERAL ===== */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: linear-gradient(90deg, var(--negro) 0%, var(--azul-oscuro) 50%, var(--azul-claro) 100%);
+    color: var(--blanco);
+}
+
+/* ===== HEADER ===== */
+header {
+    background-color: var(--header);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.izquierda {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 50px;
+    border-radius: 8px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--azul-claro);
+}
+
+/* ===== BOTON VOLVER ===== */
+.btn {
+    background-color: var(--azul-claro);
+    color: var(--negro);
+    padding: 8px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* ===== CONTENEDOR ===== */
+.contenedor {
+    max-width: 500px;
+    margin: 40px auto;
+    background: rgba(7,8,16,0.9);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px dashed var(--azul-claro); /* indica incompleto */
+}
+
+/* ===== TITULO ===== */
+h2 {
+    text-align: center;
+    color: var(--azul-claro);
+}
+
+/* ===== ESTADO ===== */
+.estado {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--gris);
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+/* ===== CAMPOS ===== */
+.campo {
+    margin-bottom: 15px;
+}
+
+.campo label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--gris);
+    margin-bottom: 5px;
+}
+
+.campo input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px dashed var(--borde);
+    background: rgba(255,255,255,0.05);
+    color: var(--blanco);
+}
+
+/* ===== BOTON ===== */
+.btn-enviar {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #444;
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+
+    <div class="izquierda">
+        <div class="logo">
+            <img src="Logo empresa.jpg" alt="Logo Jack Gamer">
+        </div>
+        <h1>Jack Gamer</h1>
+    </div>
+
+    <a href="Proyecto Empresa.HTML" class="btn">Volver</a>
+
+</header>
+
+<!-- ===== FORMULARIO ===== -->
+<div class="contenedor">
+
+    <h2>Registro</h2>
+
+    <!-- Cuestionario -->
+    <form>
+
+        <div class="campo">
+            <label>Nombre</label>
+            <input type="text" placeholder="Tu nombre">
+        </div>
+
+        <div class="campo">
+            <label>Correo</label>
+            <input type="email" placeholder="Ejemplo:epo99@gmail.com">
+        </div>
+
+        <!-- campo aún no hecho -->
+        <div class="campo">
+            <label>Teléfono</label>
+            <input type="text" placeholder="(por implementar)">
+        </div>
+
+        <button class="btn-enviar">Próximamente</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
